@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
 
 function FormFields({ updateHandler }) {
+  const firstNameEl = useRef(null);
+  console.log(Yup);
+
   return (
     <Formik
+      // This component uses useFormik and Context under the hood to connect the Form, Field and ErrorMessage components
       initialValues={{
         firstName: "",
         lastName: "",
         userEmail: "",
         userNote: "",
+        isSubmitting: true,
       }}
       validationSchema={Yup.object({
         firstName: Yup.string().required("Your first name is required."),
@@ -20,11 +25,11 @@ function FormFields({ updateHandler }) {
         userNote: Yup.string().required("A note is required."),
       })}
       onSubmit={(values, onSubmitProps) => {
-        console.log(Formik);
-        console.log(onSubmitProps);
+        //Updates state in FormContainer to include new object
         updateHandler(values);
-        onSubmitProps.setSubmitting(true);
+        onSubmitProps.setSubmitting(false);
         onSubmitProps.resetForm();
+        firstNameEl.current.focus();
       }}
     >
       {(formik) => (
@@ -32,6 +37,7 @@ function FormFields({ updateHandler }) {
           <div className="inputFieldContainer">
             <label htmlFor="firstName">First Name</label>
             <Field
+              innerRef={firstNameEl}
               autoFocus={true}
               name="firstName"
               type="text"
@@ -92,8 +98,11 @@ function FormFields({ updateHandler }) {
           </div>
           <button
             type="submit"
-            disabled={!formik.isValid || formik.isSubmitting}
-            className={!formik.isValid ? "notAllowedCursor" : null}
+            disabled={
+              !formik.isValid ||
+              formik.isSubmitting ||
+              formik.values.firstName === ""
+            }
           >
             + Add User
           </button>

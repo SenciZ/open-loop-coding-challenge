@@ -75,6 +75,11 @@ input.invalid {
   top: 62px;
 }
 
+.buttonDisabled {
+  cursor: not-allowed;
+  color: lightgray;
+}
+
 button {
   padding: 0.65rem 1.25rem;
   background-color: transparent;
@@ -86,10 +91,6 @@ button {
 
 button:hover {
   border: 1px gray solid;
-}
-
-.notAllowedCursor {
-  cursor: not-allowed;
 }
 
 @media only screen and (max-width: 900px) {
