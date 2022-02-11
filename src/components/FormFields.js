@@ -33,6 +33,7 @@ function FormFields({ updateHandler }) {
       }}
     >
       {(formik) => (
+        //The formik prop is an object provided that contains touched and errors keys to check staus
         <Form onSubmit={formik.handleSubmit}>
           <div className="inputFieldContainer">
             <label htmlFor="firstName">First Name</label>
